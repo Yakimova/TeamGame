@@ -3,7 +3,7 @@
 
 Two tanks fight.First tank position is top, second is bottom. The tanks can moving only on left and right.Among them are brigs, that the tanks break.When a tank hit another third time he is winner.
 
-# Subteams by skaype name
+# Subteams by skype name
 
 Team 1 - PEtya - Ivo
 
