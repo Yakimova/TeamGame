@@ -7,12 +7,11 @@ Two tanks fight.First tank position is top, second is bottom. The tanks can movi
 
 Team 1 - PEtya - Ivo
 
-Team 2 - Genko - Мартин Тасев
+Team 2 - Mladen - TOKATA
 
-Team 3 - Mladen - TOKATA
+Team 3 - shoTler - Arifutarukika
 
-Team 4 - shoTler - Arifutarukika
-
+Team 4 - Genko - Мартин Тасев
 
 # Videos can help us.
 
