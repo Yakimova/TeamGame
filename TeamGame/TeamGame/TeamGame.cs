@@ -56,8 +56,8 @@ namespace TeamGame
         {
             Random randomGenerator = new Random();
 
-            int linesWithBricks = 3;
-            int numberOfBricksByLine = 60;
+            int linesWithBricks = 3;//can be changed
+            int numberOfBricksByLine = 60;//can be changed
             List<Brick> bricks = new List<Brick>();
             for (int i = 0; i < linesWithBricks; i++)
             {
