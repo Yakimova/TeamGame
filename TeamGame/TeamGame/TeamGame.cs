@@ -1,82 +1,98 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace TeamGame
 {
     class TeamGame
     {
-        struct Brick
-        {
-            public int x;
-            public int y;
-            public bool isHit;
-        }
+
+        internal const  int ConsoleHeight = 31;
+        internal const  int ConsoleWidth = 60;
+
+
         static void Main()
         {
-            int consoleHeight = Console.BufferHeight = Console.WindowHeight = 40;
-            int consoleWidth = Console.BufferWidth = Console.WindowWidth = 80;
-            PrintUpTank(consoleWidth / 2 - 4, 0);
-            PrintDownTank(consoleWidth / 2 - 4, consoleHeight - 1);
-            List<Brick> bricks = CreatingBricks(consoleWidth, consoleHeight);
+            Console.BufferHeight = Console.WindowHeight = ConsoleHeight;
+            Console.BufferWidth = Console.WindowWidth = ConsoleWidth;
 
-            for (int i = 0; i < bricks.Count; i++)
+
+            var wallOfbricks = new List<Brick>();
+
+            //Generate wall
+            var wallGenerator = new Wall(wallOfbricks);
+
+            var firstPlayerTank = new Tank(ConsoleWidth / 2 - 4, 0);
+            var secondPlayerTank = new Tank(ConsoleWidth / 2 - 4, ConsoleHeight);
+
+            var printer = new Printer(wallOfbricks, firstPlayerTank, secondPlayerTank);
+
+            bool endGame = true;
+
+            while (endGame)
             {
-                if (bricks[i].isHit == false)
-                {
-                    PrintBrick(bricks[i].x, bricks[i].y);
-                }
+
+                Console.Clear();
+
+                printer.PrintWall();
+                printer.PrintTopTanks();
+
+                firstPlayerTank.Destroy();
+                secondPlayerTank.Destroy();
+
+                printer.PrintDownTanks();
+                printer.PrintBomb();
+
+                AllCollisions(wallOfbricks, firstPlayerTank, secondPlayerTank);
+
+                MoveTanks(firstPlayerTank);
+                MoveTanks(firstPlayerTank);
+
+
+                Thread.Sleep(200);
+
             }
 
-            Console.ReadLine();
-        }
-        static void PrintUpTank(int x, int y = 0)
-        {
-            // the tank is wide 7 character (from x to x+6)
-            //the tank is tall 3 characters(from y to y+2)
-            Console.SetCursorPosition(x, y);
-            Console.WriteLine("{|}|{|}");
-            Console.SetCursorPosition(x, y + 1);
-            Console.WriteLine("{|}|{|}");
-            Console.SetCursorPosition(x + 2, y + 2);
-            Console.WriteLine("(|)");
-        }
-        static void PrintDownTank(int x, int y)
-        {
-            // the tank is wide 7 character (from x to x+6)
-            //the tank is tall 3 characters(from y-2 to y)
-            Console.SetCursorPosition(x + 2, y - 3);
-            Console.WriteLine("(|)");
-            Console.SetCursorPosition(x, y - 2);
-            Console.WriteLine("{|}|{|}");
-            Console.SetCursorPosition(x, y - 1);
-            Console.WriteLine("{|}|{|}");
-        }
-        static List<Brick> CreatingBricks(int consoleWidth, int consoleHeight)
-        {
-            Random randomGenerator = new Random();
 
-            int linesWithBricks = 3;//can be changed
-            int numberOfBricksByLine = 60;//can be changed
-            List<Brick> bricks = new List<Brick>();
-            for (int i = 0; i < linesWithBricks; i++)
-            {
-                int lines = randomGenerator.Next(7, consoleHeight - 7);
-                for (int j = 0; j < numberOfBricksByLine; j++)
-                {
-                    Brick newBrick = new Brick();
-                    newBrick.x = randomGenerator.Next(4, consoleWidth - 1);
-                    newBrick.y = lines;
-                    newBrick.isHit = false;
-                    bricks.Add(newBrick);
-                }
-            }
-            return bricks;
         }
-        static void PrintBrick(int x, int y)
+
+        private static void MoveTanks(Tank player)
         {
-            Console.SetCursorPosition(x, y);
-            Console.Write("=");
+            
+            player.MoveLeft();
+            player.MoveRight();
+
+            // TODO : Must be imblement tanks move. Use console readkey
         }
+
+        private static void AllCollisions(List<Brick> wall, Tank topTank, Tank dowTank)
+        {
+            ColisionTankBombAndWall(wall, topTank, dowTank);
+            CollisionTopTankBombAndDownTankBomb(topTank , dowTank);
+            CollisionTankBombAndTankBody(topTank, dowTank);
+        }
+
+        private static void ColisionTankBombAndWall(List<Brick> wall, Tank topTank, Tank dowTank)
+        {
+
+            //wall.Contains();
+            //TODO:  topTank bomb or dowTank bomb position contains in wall bricks positions. Use method contains
+        }
+ 
+        private static void CollisionTopTankBombAndDownTankBomb(Tank topTank , Tank downTank )
+        {
+
+            //use this method topTank.GenerateNewBomb(); for every tank after collision
+            //TODO: when topTank bomb postion is equel to downTank bomb position
+        }
+
+        private static void CollisionTankBombAndTankBody(Tank topTank, Tank downTank)
+        {
+            //topTank.Points++;
+            //downTank.Points++;
+            // TODO: when tank bomb position hit tank body
+        }
+
     }
 }
