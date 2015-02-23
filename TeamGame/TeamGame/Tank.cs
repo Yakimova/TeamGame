@@ -35,12 +35,18 @@
 
         public void MoveLeft()
         {
-            this.position.Col--;
+            if (position.Col > 4)
+            {
+                this.position.Col--;                
+            }
         }
 
         public void MoveRight()
         {
-            this.position.Col++;
+            if (position.Col < TeamGame.ConsoleWidth - 5)
+            {
+                this.position.Col++;                
+            }
         }
 
         public void Destroy()

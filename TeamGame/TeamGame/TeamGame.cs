@@ -8,8 +8,8 @@ namespace TeamGame
     class TeamGame
     {
 
-        internal const  int ConsoleHeight = 31;
-        internal const  int ConsoleWidth = 60;
+        internal const int ConsoleHeight = 31;
+        internal const int ConsoleWidth = 60;
 
 
         static void Main()
@@ -17,14 +17,15 @@ namespace TeamGame
             Console.BufferHeight = Console.WindowHeight = ConsoleHeight;
             Console.BufferWidth = Console.WindowWidth = ConsoleWidth;
 
+            var TankPosition = ConsoleWidth / 2 - 4;
 
             var wallOfbricks = new List<Brick>();
 
             //Generate wall
             var wallGenerator = new Wall(wallOfbricks);
 
-            var firstPlayerTank = new Tank(ConsoleWidth / 2 - 4, 0);
-            var secondPlayerTank = new Tank(ConsoleWidth / 2 - 4, ConsoleHeight);
+            var firstPlayerTank = new Tank(TankPosition, 0);
+            var secondPlayerTank = new Tank(TankPosition, ConsoleHeight);
 
             var printer = new Printer(wallOfbricks, firstPlayerTank, secondPlayerTank);
 
@@ -46,30 +47,40 @@ namespace TeamGame
 
                 AllCollisions(wallOfbricks, firstPlayerTank, secondPlayerTank);
 
-                MoveTanks(firstPlayerTank);
-                MoveTanks(firstPlayerTank);
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo pressedKey = Console.ReadKey(true);
+                    while (Console.KeyAvailable) Console.ReadKey();
+                    if (pressedKey.Key == ConsoleKey.LeftArrow)
+                    {
+                        firstPlayerTank.MoveLeft();
+                    }
+                    if (pressedKey.Key == ConsoleKey.RightArrow)
+                    {
+                        firstPlayerTank.MoveRight();
+                    }
 
+                    if (pressedKey.Key == ConsoleKey.A)
+                    {
+                        secondPlayerTank.MoveLeft();
+                    }
+                    if (pressedKey.Key == ConsoleKey.D)
+                    {
+                        secondPlayerTank.MoveRight();
+                    }
+                }
 
                 Thread.Sleep(200);
 
             }
 
-
         }
 
-        private static void MoveTanks(Tank player)
-        {
-            
-            player.MoveLeft();
-            player.MoveRight();
-
-            // TODO : Must be imblement tanks move. Use console readkey
-        }
 
         private static void AllCollisions(List<Brick> wall, Tank topTank, Tank dowTank)
         {
             ColisionTankBombAndWall(wall, topTank, dowTank);
-            CollisionTopTankBombAndDownTankBomb(topTank , dowTank);
+            CollisionTopTankBombAndDownTankBomb(topTank, dowTank);
             CollisionTankBombAndTankBody(topTank, dowTank);
         }
 
@@ -79,8 +90,8 @@ namespace TeamGame
             //wall.Contains();
             //TODO:  topTank bomb or dowTank bomb position contains in wall bricks positions. Use method contains
         }
- 
-        private static void CollisionTopTankBombAndDownTankBomb(Tank topTank , Tank downTank )
+
+        private static void CollisionTopTankBombAndDownTankBomb(Tank topTank, Tank downTank)
         {
 
             //use this method topTank.GenerateNewBomb(); for every tank after collision
