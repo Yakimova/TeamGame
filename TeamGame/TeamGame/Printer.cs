@@ -76,11 +76,11 @@
        {
            // the tank is wide 7 character (from x to x+6)
            //the tank is tall 3 characters(from y-2 to y)
-           Console.SetCursorPosition(x -1, y - 3);
+           Console.SetCursorPosition(x -1, y - 2);
            Console.WriteLine("(|)");
-           Console.SetCursorPosition(x -3, y - 2);
+           Console.SetCursorPosition(x -3, y - 1);
            Console.WriteLine("{|}|{|}");
-           Console.SetCursorPosition(x - 3, y - 1);
+           Console.SetCursorPosition(x - 3, y );
            Console.Write("{|}|{|}");
        }
 
